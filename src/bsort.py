@@ -32,6 +32,8 @@ def count_keys(keys: list[int]) -> list[int]:
     no_keys = max(keys) + 1 if keys else 0
     counts = [0] * no_keys
     # FIXME: count the keys
+    for num in keys:
+        counts[num] += 1
     return counts
 
 
@@ -50,6 +52,12 @@ def count_sort(x: list[int]) -> list[int]:
     counts = count_keys(x)
     out = [0] * len(x)
     # FIXME: do the actual sorting
+    i = 0
+    for k, count in enumerate(counts):
+      if count != 0:
+        for _ in range(count):
+          out[i] = k
+          i += 1
     return out
 
 
@@ -64,6 +72,8 @@ def cumsum(x: list[int]) -> list[int]:
     """
     out = [0] * len(x)
     # FIXME: Compute the cumulative sum
+    for i in range(1, len(x)):
+        out[i] = out[i-1] + x[i-1]
     return out
 
 
@@ -82,4 +92,7 @@ def bucket_sort(x: list[tuple[int, Any]]) -> list[tuple[int, Any]]:
     buckets = cumsum(count_keys([k for k, _ in x]))
     out = [(0, None)] * len(x)
     # Place the pairs in their buckets
+    for key, value in x:
+        out[buckets[key]] = (key, value)
+        buckets[key] += 1
     return out
